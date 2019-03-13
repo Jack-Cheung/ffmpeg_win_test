@@ -60,7 +60,29 @@ static int audio_frame_count = 0;
  * needs. Look for the use of refcount in this example to see what are the
  * differences of API usage between them. */
 static int refcount = 0;
-
+static void save_frame_yuv420p(AVFrame* frame, const char* file_name)
+{
+	FILE* fp = fopen(file_name, "wb");
+	if (fp)
+	{
+		//Y
+		for (size_t h = 0; h < frame->height; ++h)
+		{
+			fwrite(frame->data[0] + h * frame->linesize[0], frame->width, 1, fp);	
+		}
+		//U
+		for (size_t h = 0; h < frame->height / 2; h++)
+		{
+			fwrite(frame->data[1] + h * frame->linesize[1], frame->width / 2, 1, fp);
+		}
+		//V
+		for (size_t h = 0; h < frame->height / 2; h++)
+		{
+			fwrite(frame->data[2] + h * frame->linesize[2], frame->width / 2, 1, fp);
+		}
+	}
+	fclose(fp);
+}
 static int decode_packet(int *got_frame, int cached)
 {
     int ret = 0;
@@ -97,14 +119,10 @@ static int decode_packet(int *got_frame, int cached)
                    cached ? "(cached)" : "",
                    video_frame_count++, frame->coded_picture_number);
 
-            /* copy decoded frame to destination buffer:
-             * this is required since rawvideo expects non aligned data */
-            av_image_copy(video_dst_data, video_dst_linesize,
-                          (const uint8_t **)(frame->data), frame->linesize,
-                          pix_fmt, width, height);
-
-            /* write to rawvideo file */
-            fwrite(video_dst_data[0], 1, video_dst_bufsize, video_dst_file);
+            //将视频中的每个帧保存为图片
+			char pic_name[32] = { 0 };
+			sprintf(pic_name, "%s-%d.i", video_dst_filename, video_frame_count);
+			save_frame_yuv420p(frame, pic_name);
         }
     } else if (pkt.stream_index == audio_stream_idx) {
         /* decode audio frame */
