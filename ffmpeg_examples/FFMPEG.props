@@ -1,8 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
-  <ItemDefinitionGroup />
-  <ItemGroup />
+  <PropertyGroup Label="UserMacros">
+    <FFMPEG_DIR>D:\github\ffmpeg_win_test</FFMPEG_DIR>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LibraryPath>$(FFMPEG_DIR)\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(FFMPEG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="FFMPEG_DIR">
+      <Value>$(FFMPEG_DIR)</Value>
+    </BuildMacro>
+  </ItemGroup>
 </Project>

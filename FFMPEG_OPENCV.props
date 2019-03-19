@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <OPENCV_DIR>D:\opencv\build\x64\vc15</OPENCV_DIR>
+    <FFMPEG_DIR />
+  </PropertyGroup>
+  <PropertyGroup>
+    <IncludePath>$(OPENCV_DIR)\..\..\include;$(SolutionDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\lib;$(OPENCV_DIR)\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>opencv_world401d.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="OPENCV_DIR">
+      <Value>$(OPENCV_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FFMPEG_DIR">
+      <Value>$(FFMPEG_DIR)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

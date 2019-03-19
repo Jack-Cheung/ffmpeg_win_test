@@ -12,9 +12,12 @@ int main(int argc, char** argv)
 	try
 	{
 		CPacket pkt;
-		CFrame frame;
 		CDemuxer demuxer("D:\\FFOutput\\20190307.mov");
 		CDecoder decoder(demuxer);
+		CFrame frame(decoder);
+		decoder.SetFilter(1).SetFilter(2).SetFilter(62);
+		//function<void(CFrame&)> func = [](CFrame& f) { wlog("test"); };
+		//decoder.SetProcessFunc(func);
 		while (demuxer.LoopPacket(pkt))
 		{
 			decoder.Decode(pkt, frame);
@@ -28,5 +31,6 @@ int main(int argc, char** argv)
 	{
 		elog("other exception");
 	}
+	system("pause");
 	return 0;
 }
