@@ -1,4 +1,7 @@
 #include "decoder.h"
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
+
 namespace ffmpeg{
 
 CDecoder::CDecoder(const CDemuxer& demuxer, MEDIA_TYPE intrested /*= VIDEO*/)
@@ -77,6 +80,7 @@ CFrame::CFrame( CDecoder& decoder)
 	_height = decoder._dec_ctx->height;
 	_pix_fmt = decoder._dec_ctx->pix_fmt;
 	_buf_size = av_image_alloc(_data, _linesize, _width, _height, _pix_fmt, 1);
+	dlog("image buffer size = ${size}", ("size", _buf_size));
 }
 
 CFrame::~CFrame()
@@ -86,13 +90,14 @@ CFrame::~CFrame()
 
 void CFrame::GenerateImage(fc::path p)
 {
-	//TODO
 	av_image_copy(_data, _linesize, (const uint8_t **)avframe->data, avframe->linesize, _pix_fmt, _width, _height);
-	std::fstream  fs;
-	std::string file_name = "test" + std::to_string(avframe->coded_picture_number) + ".i420";
-	fs.open(file_name, std::iostream::out);
-	fs.write((const char*)_data[0], _buf_size);
-	fs.close();
+	std::string file_name = "test" + std::to_string(avframe->coded_picture_number) + ".jpg";
+	cv::Mat yuvImg;
+	cv::Mat rgbImg(_height, _width,  CV_8UC3);
+	yuvImg.create(_height * 3 / 2, _width, CV_8UC1);
+	memcpy(yuvImg.data, _data[0], _buf_size);
+	cv::cvtColor(yuvImg, rgbImg, cv::COLOR_YUV2BGR_I420);
+	cv::imwrite(file_name, rgbImg);
 }
 
 }
