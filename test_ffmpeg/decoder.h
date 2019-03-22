@@ -6,12 +6,17 @@ extern "C" {
 #include <fc/exception/exception.hpp>
 #include <fc/log/logger.hpp>
 #include <fc/filesystem.hpp>
+
+#include <opencv2/core.hpp>
+#include <opencv2/objdetect.hpp>
+
 #include <functional>
 #include <vector>
 #include <fstream>
 #include "demuxer.hpp"
 
 using namespace std;
+using namespace cv;
 
 namespace ffmpeg{
 
@@ -36,7 +41,7 @@ private:
 	vector<int> seconds;
 	int _stream_id = -1;
 	function<void(CFrame&)> _process_img_func;
-	friend class CFrame;
+	friend struct CFrame;
 };
 
 struct CFrame
@@ -46,6 +51,7 @@ public:
 	CFrame(CDecoder& decoder);
 	~CFrame();
 	void GenerateImage(fc::path p);
+	void DetectFace();
 private:
 	AVFrame* avframe = NULL;
 	AVCodecContext* avCodecCtx = NULL;
@@ -55,6 +61,8 @@ private:
 	int _width = 0;
 	int _height = 0;
 	AVPixelFormat _pix_fmt;
+	CascadeClassifier _face_cascade;
+	CascadeClassifier _eyes_cascade;
 	friend class CDecoder;
 	friend class CDemuxer;
 };
