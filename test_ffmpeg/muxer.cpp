@@ -22,8 +22,6 @@ namespace ffcv
 
 	void CMuxer::WritePacket(CPacket& pkt)
 	{
-		//FC_ASSERT(av_read_frame(_ctx._ifmt_ctx, &pkt._pkt) >= 0, "");
-		wlog("------------");
 		if (av_read_frame(_ctx._ifmt_ctx, &pkt._pkt) < 0)
 		{
 			wlog("read frame < 0");
@@ -36,11 +34,11 @@ namespace ffcv
 			return;
 		}
 		/* copy packet */
-		/*pkt._pkt.pts = av_rescale_q_rnd(pkt._pkt.pts, _ctx._istream->time_base, _ctx._ostream->time_base, AVRounding(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+		pkt._pkt.pts = av_rescale_q_rnd(pkt._pkt.pts, _ctx._istream->time_base, _ctx._ostream->time_base, AVRounding(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
 		pkt._pkt.dts = av_rescale_q_rnd(pkt._pkt.dts, _ctx._istream->time_base, _ctx._ostream->time_base, AVRounding(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
 		pkt._pkt.duration = av_rescale_q(pkt._pkt.duration, _ctx._istream->time_base, _ctx._ostream->time_base);
-		pkt._pkt.pos = -1;*/
-		FC_ASSERT(av_interleaved_write_frame(_ctx._ofmt_ctx, &pkt._pkt) >= 0, "Error muxing packet\n");
+		pkt._pkt.pos = -1;
+		FC_ASSERT(av_interleaved_write_frame(_ctx._ofmt_ctx, &pkt._pkt) >= 0, "Error muxing packet");
 		av_packet_unref(&pkt._pkt);//TODO
 	}
 

@@ -29,5 +29,7 @@ namespace ffcv
 		cv::Mat _convtImg;
 		friend class CDecoder;
 		friend class CDemuxer;
+		//friend class CMuxer;
+		friend class CEncoder;
 	};
 }

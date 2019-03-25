@@ -18,14 +18,14 @@ namespace ffcv
 		CFrame frame(ctx);
 		decoder.SetFilter(800).SetFilter(1000).SetFilter(300);//TODO
 	
-		CMuxer muxer(ctx);//write header
-		CEncoder encoder(ctx);
+		//CMuxer muxer(ctx);//write header
+		//CEncoder encoder(ctx);
 		while (demuxer.LoopPacket(pkt))
 		{
 			decoder.Decode(pkt, frame);
 		//TODO　DoSomething
-			encoder.Encode(frame, pkt);
-			muxer.WritePacket(pkt);//TODO 视频画质变差很多
+			//encoder.Encode(frame, pkt);
+			//muxer.WritePacket(pkt);//TODO 视频画质变差很多
 		}
 		//muxer.Close();
 	}

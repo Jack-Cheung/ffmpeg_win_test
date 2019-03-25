@@ -75,8 +75,6 @@ namespace ffcv
 		/*int av_image_fill_arrays(uint8_t *dst_data[4], int dst_linesize[4],
 			const uint8_t *src,
 			enum AVPixelFormat pix_fmt, int width, int height, int align);*/
-		av_image_fill_arrays(_data, _linesize, (const uint8_t *)_convtImg.data, AV_PIX_FMT_BGR24, _ctx._ostream->codecpar->width, _ctx._ostream->codecpar->height, 1);
-		//avpicture_fill((AVPicture*)&dst, _convtImg.data, PIX_FMT_BGR24, _ctx._ostream->codec->width, outStream->codec->height);
 		return *this;
 	}
 }

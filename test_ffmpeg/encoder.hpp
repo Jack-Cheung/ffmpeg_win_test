@@ -1,4 +1,5 @@
 #pragma once
+#include "context.hpp"
 #include "decoder.hpp"
 #include "packet.hpp"
 namespace ffcv
@@ -7,10 +8,11 @@ namespace ffcv
 	{
 	public:
 		CEncoder() = delete;
-		explicit CEncoder(const CDecoder& decoder);
+		explicit CEncoder(CContext& ctx);
 		~CEncoder();
 		void Encode(CFrame& frame, CPacket& pkt);
 	private:
+		CContext& _ctx;
 
 	};
 

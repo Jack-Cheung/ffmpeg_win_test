@@ -13,6 +13,8 @@ namespace ffcv
 		AVFormatContext* _ofmt_ctx = NULL;
 		AVCodecContext* _dec_ctx = NULL;
 		AVCodecContext* _ec_ctx = NULL;
+		AVCodec* _decodec = NULL;
+		AVCodec* _encodec = NULL;
 		fc::path _ifile_path;
 		fc::path _ofile_path;
 		//TODO

@@ -3,6 +3,7 @@
 extern "C" {
 #include <libavformat/avformat.h>
 #include <libavutil/imgutils.h>
+#include <libavutil/error.h>
 }
 
 #include <fc/exception/exception.hpp>
