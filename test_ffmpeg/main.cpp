@@ -1,27 +1,14 @@
-#include "decoder.h"
-#include "demuxer.hpp"
-extern "C" {
-#include <libavformat/avformat.h>
-}
-#include <fc/exception/exception.hpp>
-#include <fc/log/logger.hpp>
-using namespace ffmpeg;
+#include "controller.hpp"
+
+using namespace ffcv;
 using namespace fc;
 int main(int argc, char** argv)
 {
 	try
 	{
-		CPacket pkt;
-		CDemuxer demuxer("D:\\FFOutput\\20190307.mov");
-		CDecoder decoder(demuxer);
-		CFrame frame(decoder);
-		decoder.SetFilter(1).SetFilter(2).SetFilter(62);
-		//function<void(CFrame&)> func = [](CFrame& f) { wlog("test"); };
-		//decoder.SetProcessFunc(func);
-		while (demuxer.LoopPacket(pkt))
-		{
-			decoder.Decode(pkt, frame);
-		}
+		CConfig conf;
+		CController ctrl(conf);
+		ctrl.Process();
 	}
 	catch (fc::exception& e)
 	{
