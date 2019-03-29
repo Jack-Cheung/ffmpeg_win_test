@@ -6,9 +6,12 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		CConfig conf;
-		CController ctrl(conf);
-		ctrl.Process();
+		{
+			CConfig conf;
+			CController ctrl(conf);
+			ctrl.Process();
+		}
+		system("pause");
 	}
 	catch (fc::exception& e)
 	{

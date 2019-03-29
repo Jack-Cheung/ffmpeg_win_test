@@ -48,6 +48,9 @@
     <ClInclude Include="packet.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="stream.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="decoder.cpp">
@@ -78,6 +81,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="packet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stream.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

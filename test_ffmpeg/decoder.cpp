@@ -6,7 +6,7 @@ CDecoder::CDecoder(CContext& ctx)
 	:_ctx(ctx)
 {
 	_process_img_func = [&](CFrame& frame) {
-			frame.SetPayload().ConvertColor().MarkFace().CreateSnapShot();
+			//frame.SetPayload().ConvertColor().MarkFace().CreateSnapShot();
 	};
 }
 
@@ -32,9 +32,9 @@ bool CDecoder::Decode(CPacket& pkt, CFrame& frame)
 	AVFrame* pavFrame = frame.avframe;
 	if (pavPacket->stream_index == _ctx._istream_id)
 	{
-		auto on_exit = fc::make_scoped_exit([&pavFrame]() {
-			av_frame_unref(pavFrame);
-		});//todo
+		//auto on_exit = fc::make_scoped_exit([&pavFrame]() {
+		//	av_frame_unref(pavFrame);
+		//});//todo
 		//wlog("pkt.pts = ${pts} duration=${dur} time_base=${base}", ("pts", pavPacket->pts)("dur",pavPacket->duration)("base",av_q2d(_ctx._ifmt_ctx->streams[_ctx._istream_id]->time_base)));
 		int ret = avcodec_send_packet(_ctx._dec_ctx, pavPacket);
 		if (ret == 0)
@@ -44,19 +44,19 @@ bool CDecoder::Decode(CPacket& pkt, CFrame& frame)
 			{
 				wlog("frame.format=${fmt}, frame.width=${w}, frame.height=${h}", ("fmt", frame.avframe->format)("w", frame.avframe->width)("h", frame.avframe->height));
 				frame_counter++;
-				vector<int>::const_iterator  itr;
-				if (!seconds.empty() && (itr = find_if(seconds.cbegin(), seconds.cend(), [&](auto elem)->bool {
-					/*return elem * av_q2d(av_inv_q(_fmt_ctx->streams[_stream_id]->time_base)) == pavPacket->pts;*/
-					return elem == frame_counter;
-				})) != end(seconds))
-				{
+				//vector<int>::const_iterator  itr;
+				//if (!seconds.empty() && (itr = find_if(seconds.cbegin(), seconds.cend(), [&](auto elem)->bool {
+				//	/*return elem * av_q2d(av_inv_q(_fmt_ctx->streams[_stream_id]->time_base)) == pavPacket->pts;*/
+				//	return elem == frame_counter;
+				//})) != end(seconds))
+				/*{
 					if (_process_img_func)
 					{
 						wlog("hello!");
 						_process_img_func(frame);
 					}
 					return true;
-				}
+				}*/
 				return true;
 			}
 			else

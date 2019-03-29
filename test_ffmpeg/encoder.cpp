@@ -13,13 +13,19 @@ namespace ffcv
 	{
 		if (pkt._pkt.stream_index != _ctx._istream_id)
 			return;
+		/*AVFrame* avFrame = frame.avframe;
+		avFrame->format = _ctx._ec_ctx->pix_fmt;
+		avFrame->width = _ctx._ec_ctx->width;
+		avFrame->height = _ctx._ec_ctx->height;*/
+		
 		dlog("frame.format=${fmt}, frame.width=${w}, frame.height=${h}", ("fmt", frame.avframe->format)("w", frame.avframe->width)("h", frame.avframe->height));
 		int ret = avcodec_send_frame(_ctx._ec_ctx, frame.avframe);
 		if (ret < 0) {
 			fprintf(stderr, "Error sending a frame for encoding\n");
 		}
-
-		while (ret >= 0) {
+		//int ret;
+		//frame.SetPayload().ConvertColor().MarkFace()/*.CreateSnapShot()*/;
+		{
 			ret = avcodec_receive_packet(_ctx._ec_ctx, &pkt._pkt);
 
 			if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)

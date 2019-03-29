@@ -31,5 +31,7 @@ namespace ffcv
 		friend class CDemuxer;
 		//friend class CMuxer;
 		friend class CEncoder;
+		//TODO
+		friend class CController;
 	};
 }

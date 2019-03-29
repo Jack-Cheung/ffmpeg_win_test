@@ -1,6 +1,8 @@
 #pragma once
 #include "common.hpp"
+#include "stream.hpp"
 using std::string;
+using std::vector;
 namespace ffcv
 {
 	class CContext
@@ -9,6 +11,12 @@ namespace ffcv
 		CContext(const string& ifile_path, const string& ofile_path);
 
 	private:
+		void OpenInputFile();
+		void OpenOutputFile();
+		
+		vector<CStreamContext> _stream_ctxes;
+
+
 		AVFormatContext* _ifmt_ctx = NULL;
 		AVFormatContext* _ofmt_ctx = NULL;
 		AVCodecContext* _dec_ctx = NULL;
@@ -17,7 +25,7 @@ namespace ffcv
 		AVCodec* _encodec = NULL;
 		fc::path _ifile_path;
 		fc::path _ofile_path;
-		//TODO
+
 		int _istream_id = -1;
 		int _ostream_id = -1;
 		AVStream* _istream = NULL;
